@@ -49,8 +49,7 @@ bool CQRadixSort<T>::sort(std::vector<T>& vtData)
         {
             k = (vtData[j] / radix) % 10;
             // 倒序
-            vtTmp[vtRadix[k] - 1] = vtData[j];
-            vtRadix[k]--;
+            vtTmp[--vtRadix[k]] = vtData[j];
         }
         
         vtData = vtTmp;

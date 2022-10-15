@@ -8,8 +8,20 @@ template <typename T>
 bool CQMergingSort<T>::sort(std::vector<T>& vtData)
 {
     bool bRet = false;
-    
-    MergeSort(vtData, 0, vtData.size() - 1);
+
+    // 递归实现
+    // MergeSort(vtData, 0, vtData.size() - 1);
+
+    // 迭代实现
+    // 按照步长1将素组分割成 nLen 份组合,再加宽步长继续组合
+    int nLen = vtData.size();
+    for (int nStep = 1; nStep < nLen; nStep *= 2)
+    {
+        for (int nStart = 0; nStart < nLen; nStart += (nStep * 2))
+        {
+            Merge(vtData, nStart, std::min(nStart+nStep-1, nLen), std::min(nStart+nStep+nStep-1, nLen));
+        }
+    }
 
     bRet = true;
 
@@ -55,6 +67,7 @@ void CQMergingSort<T>::Merge(std::vector<T>& vtData, int nStart, int nMid, int n
         vtTmp.push_back(vtData[nLow]);
         nLow ++;
     }
+
     while (nHight <= nEnd)
     {
         vtTmp.push_back(vtData[nHight]);
@@ -65,14 +78,6 @@ void CQMergingSort<T>::Merge(std::vector<T>& vtData, int nStart, int nMid, int n
     {
         vtData[nStart + i] = vtTmp[i];
     }
-
-    printf("start:%d mid:%d end:%d ", nStart, nMid, nEnd);
-    for (int value : vtData)
-    {
-        std::cout << value << " ";
-    }
-
-    std::cout << std::endl;
 }
 
 template class CQMergingSort<int>;

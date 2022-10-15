@@ -43,9 +43,9 @@ int main(int argc, char const *argv[])
     // CQShellSort<int> qsort;      // 希尔
     // CQHeapSort<int> qsort;       // 堆
     // CQMergingSort<int> qsort;    // 归并
-    // CQCountingSort<int> qsort;   // 计数
+    CQCountingSort<int> qsort;   // 计数
     // CQBucketSort<int> qsort;     // 桶
-    CQRadixSort<int> qsort;      // 基数
+    // CQRadixSort<int> qsort;      // 基数
     qsort.sort(vtData);
 
     std::cout << "after sort:" << std::endl;

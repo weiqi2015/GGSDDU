@@ -1,24 +1,27 @@
 #include "QBubbleSort.h"
 
 // 冒泡排序
-// 算法：遍历数据，两两比较，如果是逆序，则交换数据。
-// 优化：如果遍历完后，数据顺序没有发生改变，证明排序已经完成
+// 算法原理：
+//     从头到尾遍历，比较相邻的两个元素，如果顺序是逆序，交换两个元素。
+//     每次遍历会将遍历区间中最值移动到遍历区间的末端，末端变为有序。
+//     遍历区间会随着遍历次数的增加而减小。
+// 优化：如果遍历完后，顺序没有发生改变，证明排序已经完成，退出循环。
 template <typename T>
 bool CQBubbleSort<T>::sort(std::vector<T>& vtData)
-// bool CQBubbleSort::sort(std::vector<int>& vtData)
 {
     bool bRet = false;
     bool bChange = false;
-    for (int i = vtData.size(); i >= 0; i--)
+    
+    for (int i = 0; i < (vtData.size() - 1); i++)
     {
-        for (int j = (i - 1); j >= 0; j--)
+        for (int j = 0; j < (vtData.size() - 1 - i); j++)
         {
-            if (vtData[j] > vtData[i])
+            if (vtData[j] > vtData[j+1])
             {
-                // vtData[j] += vtData[i];
-                // vtData[i] = vtData[j] - vtData[i];
-                // vtData[j] = vtData[j] - vtData[i];
-                std::swap(vtData[i], vtData[j]);
+                // vtData[j]  += vtData[j+1];
+                // vtData[j+1] = vtData[j] - vtData[j+1];
+                // vtData[j]   = vtData[j] - vtData[j+1];
+                std::swap(vtData[j], vtData[j+1]);
 
                 bChange = true;
             }

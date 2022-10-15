@@ -7,18 +7,24 @@ template <typename T>
 bool CQSelectionSort<T>::sort(std::vector<T>& vtData)
 {
     bool bRet = false;
-    bool bChange = false;
+
+    // 最值
     int maxIndex = 0;
     int minIndex = 0;
     
-    for (int i = 0; i < (vtData.size() / 2); i++)
+    // 无序区间末端下标
+    int nLeft = 0;
+    int nRight = vtData.size() - 1;
+
+    // 从左往右遍历
+    while (nLeft < nRight)
     {
-        size_t size = vtData.size() - i;
-        minIndex = i;
-        maxIndex = size-1;
-        
-        // 遍历没有排序数据，记录最大和最小数据下标
-        for (int j = i; j < size; j++)
+        // 最值设置为无序区间两端
+        minIndex = nLeft;
+        maxIndex = nRight;
+
+        // 遍历无序区间，记录最大和最小数据下标
+        for (int j = nLeft; j < nRight; j++)
         {
             if (vtData[j] > vtData[maxIndex])
                 maxIndex = j;
@@ -26,38 +32,32 @@ bool CQSelectionSort<T>::sort(std::vector<T>& vtData)
                 minIndex = j;
         }
         
-        { // 升序
-            if (minIndex != i)
-            {
-                std::swap(vtData[i], vtData[minIndex]);
-                bChange = true;
-            }
-            if (maxIndex != size-1)
-            {
-                std::swap(vtData[size-1], vtData[maxIndex]);
-                bChange = true;
-            }
+        // 最大和最小值位置互换
+        if (maxIndex == nLeft && minIndex == nRight)
+        {
+            std::swap(vtData[maxIndex], vtData[minIndex]);
         }
-        
-        /*
-        { // 降序
-            if (minIndex != size-1)
+        else
+        {
+            // 最小值移动到最左端
+            if (minIndex != nLeft)
             {
-                std::swap(vtData[size-1], vtData[minIndex]);
-                bChange = true;
+                std::swap(vtData[nLeft], vtData[minIndex]);
+                
+                // 最大值位置发生改变，更新下标值
+                if (maxIndex == nLeft)
+                    maxIndex = minIndex;
             }
-            if (maxIndex != i)
-            {
-                std::swap(vtData[i], vtData[maxIndex]);
-                bChange = true;
-            }
+            
+            // 最大值移动到最右端
+            if (maxIndex != nRight)
+                std::swap(vtData[nRight], vtData[maxIndex]);
         }
-        */
-       
-        if (! bChange)
-            break;
+
+        nLeft++;
+        nRight--;
     }
-    
+
     bRet = true;
 
     return bRet;

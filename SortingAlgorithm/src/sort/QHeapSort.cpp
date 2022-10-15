@@ -4,6 +4,9 @@
 // 堆排序
 // 算法：将数据组成树状形式排序堆，每次获取根节点，用最低端的节点替换，再调整堆。
 // 优化：
+//
+// 堆的数据分布
+// A=0|B=A*2+1|C=A*2+2|D=B*2+1|E=B*2+2|F=C*2+1|G=C*2+2
 template <typename T>
 bool CQHeapSort<T>::sort(std::vector<T>& vtData)
 {
@@ -43,6 +46,7 @@ void CQHeapSort<T>::HeapAdjust(std::vector<T>& vtData, int index, int nSize)
 
     while (nSon < nSize)
     {
+        // 获取最大子节点下标
         if (((nSon+1) < nSize) && (vtData[nSon] < vtData[nSon + 1]))
             nSon ++;
 
@@ -50,7 +54,10 @@ void CQHeapSort<T>::HeapAdjust(std::vector<T>& vtData, int index, int nSize)
         if (vtData[nDad] >= vtData[nSon])
             break;
 
+        // 调整父子节点数据
         std::swap(vtData[nDad], vtData[nSon]);
+
+        // 数据发生变化，需要继续调整子堆的数据
         nDad = nSon;
         nSon = nSon * 2 + 1;
     }
